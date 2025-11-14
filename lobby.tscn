@@ -1,0 +1,252 @@
+[gd_scene load_steps=3 format=3 uid="uid://cptrhkwddbe2d"]
+
+[ext_resource type="Script" uid="uid://divjbdq6n4oy6" path="res://Lobby/lobby.gd" id="1_o1atq"]
+
+[sub_resource type="GDScript" id="GDScript_o1atq"]
+resource_name = "LobbySelected"
+script/source = "extends Button
+
+
+
+
+func _on_pressed() -> void:
+	$\"../../../../../..\".lobby_selected = get_parent().get_child(0).text
+# $Lobby ID for join
+"
+
+[node name="Lobby" type="Control" node_paths=PackedStringArray("PID", "feedback", "start", "Ready", "Host", "Update", "Join", "Refresh", "server_wakeup", "Exit", "name_edit", "pas_edit", "player_tab", "player_tab_dummy", "lobby_tab", "lobby_tab_dummy")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_o1atq")
+PID = NodePath("Panel/Panel/PID")
+feedback = NodePath("Panel/Panel/feedback")
+start = NodePath("Panel/HBoxContainer/buttons/Start")
+Ready = NodePath("Panel/HBoxContainer/buttons/Ready")
+Host = NodePath("Panel/HBoxContainer/buttons/Host")
+Update = NodePath("Panel/HBoxContainer/buttons/Host/host")
+Join = NodePath("Panel/HBoxContainer/buttons/Join")
+Refresh = NodePath("Panel/HBoxContainer/buttons/Refresh")
+server_wakeup = NodePath("Panel/HBoxContainer/buttons/Refresh/server_wakeup")
+Exit = NodePath("Panel/HBoxContainer/buttons/Exit")
+name_edit = NodePath("Panel/HBoxContainer/buttons/name_edit")
+pas_edit = NodePath("Panel/HBoxContainer/buttons/pas_edit")
+player_tab = NodePath("Panel/HBoxContainer/Panel/player_tab")
+player_tab_dummy = NodePath("Panel/HBoxContainer/Panel/player_tab/Tab_dummy")
+lobby_tab = NodePath("Panel/HBoxContainer/Panel/lobby_tab")
+lobby_tab_dummy = NodePath("Panel/HBoxContainer/Panel/lobby_tab/Tab_dummy")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="buttons" type="VBoxContainer" parent="Panel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Start" type="Button" parent="Panel/HBoxContainer/buttons"]
+visible = false
+layout_mode = 2
+text = "Start"
+
+[node name="Ready" type="Button" parent="Panel/HBoxContainer/buttons"]
+visible = false
+layout_mode = 2
+text = "Ready"
+
+[node name="Host" type="Button" parent="Panel/HBoxContainer/buttons"]
+layout_mode = 2
+text = "Host"
+
+[node name="host" type="Timer" parent="Panel/HBoxContainer/buttons/Host"]
+wait_time = 25.0
+
+[node name="Join" type="Button" parent="Panel/HBoxContainer/buttons"]
+layout_mode = 2
+text = "Join"
+
+[node name="Refresh" type="Button" parent="Panel/HBoxContainer/buttons"]
+layout_mode = 2
+text = "Refresh"
+
+[node name="server_wakeup" type="Timer" parent="Panel/HBoxContainer/buttons/Refresh"]
+wait_time = 5.0
+
+[node name="Exit" type="Button" parent="Panel/HBoxContainer/buttons"]
+visible = false
+layout_mode = 2
+text = "Exit"
+
+[node name="name_edit" type="LineEdit" parent="Panel/HBoxContainer/buttons"]
+layout_mode = 2
+placeholder_text = "Nickname"
+
+[node name="pas_edit" type="LineEdit" parent="Panel/HBoxContainer/buttons"]
+layout_mode = 2
+placeholder_text = "Password"
+virtual_keyboard_type = 6
+secret = true
+
+[node name="secret" type="Button" parent="Panel/HBoxContainer/buttons/pas_edit"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -45.0
+offset_bottom = 25.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 12
+text = "Secret"
+
+[node name="Panel" type="Panel" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="player_tab" type="VBoxContainer" parent="Panel/HBoxContainer/Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Tab_nickname" type="Label" parent="Panel/HBoxContainer/Panel/player_tab"]
+layout_mode = 2
+text = "Players"
+
+[node name="tab_ready" type="Label" parent="Panel/HBoxContainer/Panel/player_tab/Tab_nickname"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Ready"
+horizontal_alignment = 2
+
+[node name="HSeparator" type="HSeparator" parent="Panel/HBoxContainer/Panel/player_tab"]
+layout_mode = 2
+
+[node name="Tab_dummy" type="Label" parent="Panel/HBoxContainer/Panel/player_tab"]
+visible = false
+layout_mode = 2
+text = "Player_nickname"
+
+[node name="tab_ready" type="Label" parent="Panel/HBoxContainer/Panel/player_tab/Tab_dummy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "No"
+horizontal_alignment = 2
+
+[node name="lobby_tab" type="VBoxContainer" parent="Panel/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Tab_nickname" type="Label" parent="Panel/HBoxContainer/Panel/lobby_tab"]
+layout_mode = 2
+text = "Lobby"
+
+[node name="tab_ready" type="Label" parent="Panel/HBoxContainer/Panel/lobby_tab/Tab_nickname"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "ID"
+horizontal_alignment = 2
+
+[node name="HSeparator" type="HSeparator" parent="Panel/HBoxContainer/Panel/lobby_tab"]
+layout_mode = 2
+
+[node name="Tab_dummy" type="Label" parent="Panel/HBoxContainer/Panel/lobby_tab"]
+visible = false
+layout_mode = 2
+text = "Lobby_nickname"
+
+[node name="tab_ready" type="Label" parent="Panel/HBoxContainer/Panel/lobby_tab/Tab_dummy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Host_ID"
+horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="Panel/HBoxContainer/Panel/lobby_tab/Tab_dummy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+script = SubResource("GDScript_o1atq")
+
+[node name="Panel" type="Panel" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -44.0
+grow_horizontal = 2
+
+[node name="PID" type="Label" parent="Panel/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "ID:"
+
+[node name="feedback" type="Label" parent="Panel/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Feedback "
+horizontal_alignment = 2
+
+[connection signal="pressed" from="Panel/HBoxContainer/buttons/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/buttons/Ready" to="." method="_on_ready_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/buttons/Host" to="." method="_on_host_pressed"]
+[connection signal="timeout" from="Panel/HBoxContainer/buttons/Host/host" to="." method="_on_host_timeout"]
+[connection signal="pressed" from="Panel/HBoxContainer/buttons/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/buttons/Refresh" to="." method="_on_refresh_pressed"]
+[connection signal="timeout" from="Panel/HBoxContainer/buttons/Refresh/server_wakeup" to="." method="_on_server_wakeup_timeout"]
+[connection signal="pressed" from="Panel/HBoxContainer/buttons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/buttons/pas_edit/secret" to="." method="_on_secret_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/Panel/lobby_tab/Tab_dummy/Button" to="Panel/HBoxContainer/Panel/lobby_tab/Tab_dummy/Button" method="_on_pressed"]
