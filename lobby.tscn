@@ -10,7 +10,7 @@ script/source = "extends Button
 
 
 func _on_pressed() -> void:
-	$\"../../../../../..\".lobby_selected = get_parent().get_child(0).text
+	$\"../../../../../..\".lobby_selected = get_parent().text
 # $Lobby ID for join
 "
 
@@ -189,7 +189,6 @@ layout_mode = 2
 [node name="Tab_dummy" type="Label" parent="Panel/HBoxContainer/Panel/lobby_tab"]
 visible = false
 layout_mode = 2
-text = "Lobby_nickname"
 
 [node name="tab_ready" type="Label" parent="Panel/HBoxContainer/Panel/lobby_tab/Tab_dummy"]
 layout_mode = 1

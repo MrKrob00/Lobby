@@ -80,7 +80,7 @@ func _on_join_pressed() -> void:
 	else:
 		var body = JSON.stringify({
 		"name": lobby_selected,
-		"password": pas_edit
+		"password": pas_edit.text
 		})
 		var headers = ["Content-Type: application/json"]
 		http.request(URL+"/check-password",
@@ -97,29 +97,32 @@ func _on_check_password_response(_result, _code, _headers, body):
 		return
 	if response["valid"]:
 		feedback.text = "Access granted!"
+		
+		var host_id = response["host_id"]
+		peer.join(host_id)
+		
+		await peer.joined
+		
+		feedback.text = "Join successful"
+		Refresh.visible = false
+		player_tab.visible = true
+		lobby_tab.visible = false
+		Ready.visible = true
+		name_edit.visible = false
+		Host.visible =false 
+		Join.visible = false
+		Exit.visible=true
+		# create a nickname
+		if name_edit.text=="": 
+			Player_name = peer.online_id
+			player_join.rpc(peer.online_id)
+		else: 
+			Player_name = name_edit.text
+			player_join.rpc(name_edit.text)
+		players.get_or_add(Player_name,Player_name)
+	
 	else:
 		feedback.text = "Incorrect password."
-	peer.join(lobby_selected)
-	
-	await peer.joined
-	
-	feedback.text = "Join successful"
-	Refresh.visible = false
-	player_tab.visible = true
-	lobby_tab.visible = false
-	Ready.visible = true
-	name_edit.visible = false
-	Host.visible =false 
-	Join.visible = false
-	Exit.visible=true
-	# create a nickname
-	if name_edit.text=="": 
-		Player_name = peer.online_id
-		player_join.rpc(peer.online_id)
-	else: 
-		Player_name = name_edit.text
-		player_join.rpc(name_edit.text)
-	players.get_or_add(Player_name,Player_name)
 
 func add_player(pid):
 	for player in player_tab.get_children():
@@ -132,11 +135,17 @@ func add_player(pid):
 	player_tab.add_child(label)
 
 func _on_start_pressed() -> void:
+	http.cancel_request()
+	var body = JSON.stringify({"host_id": peer.online_id})
+	var headers = ["Content-Type: application/json"]
+	http.request(URL+"/delete",
+	headers, HTTPClient.METHOD_POST, body)
 	start_game.rpc()
 
 @rpc("authority","call_local","reliable")
 func start_game():
-	get_tree().change_scene_to_file(Game.resource_path)
+	G.multiplayer_peer = multiplayer.multiplayer_peer
+	get_tree().change_scene_to_file.call_deferred(Game.resource_path)
 
 @rpc ("any_peer","call_remote","reliable")
 func player_join(P_name):
